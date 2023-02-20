@@ -49,6 +49,7 @@ describe('app', () => {
                         expect(review).toHaveProperty('designer', expect.any(String));
                         expect(review).toHaveProperty('comment_count', expect.any(Number));
                     })
+                    expect(reviews[4].comment_count).toBe(3);
             })
 
         });
@@ -65,6 +66,19 @@ describe('app', () => {
             })
         });
 
+    });
+
+    xdescribe('error handling', () => {
+        
+        it.only('404: GET responds with correct message for valid but non-existent paths', () => {
+            return request(app)
+                .get('/api/bananas')
+                .expect(200)
+                .then(({ body }) => {
+                    const { msg } = body;
+                    expect(msg).toBe('Not Found');
+            })
+        })        
     });
 
 });

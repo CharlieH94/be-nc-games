@@ -1,4 +1,4 @@
-exports.handle500Statuses = (error, req, res, next) => {
+exports.handle500Statuses = (error, request, response, next) => {
     console.log(error);
-    res.status(500).send({ msg: "500: Internal Server Error"});
+    response.status(500).send({ msg: "500: Internal Server Error"});
 };
