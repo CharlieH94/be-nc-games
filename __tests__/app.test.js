@@ -65,10 +65,6 @@ describe('app', () => {
             })
         });
 
-        xit('400: invalid sort by query', () => {
-            
-        });
-
     });
 
 });
