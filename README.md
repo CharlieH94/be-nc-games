@@ -8,11 +8,11 @@ Create two files:
 1) .env.development
     - This will allow connection to your development database
     - Paste the following into the file:
-        PGDATABASE=nc_games
+        PGDATABASE=data_base_name
 
 2) .env.test
     - This will allow connection to your test database
     - Paste the following into the file:
-        PGDATABASE=nc_games_test
+        PGDATABASE=data_base_name_test
 
 
