@@ -29,7 +29,7 @@ describe('app', () => {
     });
 
     
-    describe.only('GET /api/reviews', () => {
+    describe('GET /api/reviews', () => {
         
         it('200: responds with array of review objects', () => {
             return request(app)
@@ -53,8 +53,16 @@ describe('app', () => {
 
         });
         
-        xit('200: accepts a sort by query of created_at', () => {
-            
+        it('200: response sorted by date descending', () => {
+            return request(app)
+                .get('/api/reviews')
+            .expect(200)
+                .then(({ body }) => {
+                    const { reviews } = body;
+                    expect(reviews).toBeSortedBy('created_at', {
+                        descending: true
+                    });
+            })
         });
 
         xit('400: invalid sort by query', () => {
