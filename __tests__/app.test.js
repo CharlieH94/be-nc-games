@@ -18,6 +18,7 @@ describe('app', () => {
                 .expect(200)
                 .then(({ body }) => {
                     const { categories } = body;
+                    expect(categories.length).toBe(4);
                     categories.forEach(category => {
                         expect(category).toHaveProperty('slug', expect.any(String));
                         expect(category).toHaveProperty('description', expect.any(String));

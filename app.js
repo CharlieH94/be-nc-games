@@ -4,7 +4,6 @@ const { handle500Statuses } = require("./controllers/error-handling-controllers.
 
 const app = express();
 
-app.use(express.json());
 
 app.get("/api/categories", getCategories);
 
