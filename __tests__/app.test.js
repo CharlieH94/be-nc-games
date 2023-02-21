@@ -29,4 +29,56 @@ describe('app', () => {
     });
 
     
+    describe('GET /api/reviews', () => {
+        
+        it('200: responds with array of review objects', () => {
+            return request(app)
+                .get('/api/reviews')
+                .expect(200)
+                .then(({ body }) => {
+                    const { reviews } = body;
+                    expect(reviews.length).toBe(13);
+                    reviews.forEach(review => {
+                        expect(review).toHaveProperty('owner', expect.any(String));
+                        expect(review).toHaveProperty('title', expect.any(String));
+                        expect(review).toHaveProperty('review_id', expect.any(Number));
+                        expect(review).toHaveProperty('category', expect.any(String));
+                        expect(review).toHaveProperty('review_img_url', expect.any(String));
+                        expect(review).toHaveProperty('created_at', expect.any(String));
+                        expect(review).toHaveProperty('votes', expect.any(Number));
+                        expect(review).toHaveProperty('designer', expect.any(String));
+                        expect(review).toHaveProperty('comment_count', expect.any(Number));
+                    })
+                    expect(reviews[4].comment_count).toBe(3);
+            })
+
+        });
+        
+        it('200: response sorted by date descending', () => {
+            return request(app)
+                .get('/api/reviews')
+            .expect(200)
+                .then(({ body }) => {
+                    const { reviews } = body;
+                    expect(reviews).toBeSortedBy('created_at', {
+                        descending: true
+                    });
+            })
+        });
+
+    });
+
+    describe('error handling', () => {
+        
+        it('404: responds with correct message for non-existent path', () => {
+            return request(app)
+                .get('/api/i-am-groot')
+                .expect(404)
+                .then(({ body }) => {
+                    const { msg } = body;
+                    expect(msg).toBe('Path Not Found');
+            })
+        })        
+    });
+
 });
