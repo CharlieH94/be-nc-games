@@ -66,35 +66,46 @@ describe("app", () => {
     });
   });
 
-  describe.only("GET /api/reviews/:review_id", () => {
+  describe("GET /api/reviews/:review_id", () => {
     it("200: responds with a review object", () => {
       return request(app)
         .get("/api/reviews/1")
         .expect(200)
         .then(({ body }) => {
-            const { review } = body;
-            expect(review).toEqual(
-                {
-                    review_id: 1,
-                    title: 'Agricola',
-                    review_body: 'Farmyard fun!',
-                    designer: 'Uwe Rosenberg',
-                    review_img_url: 'https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700',
-                    votes: 1,
-                    category: 'euro game',
-                    owner: 'mallionaire',
-                    created_at: '2021-01-18T10:00:20.514Z'
-                  }
-            )
+          const { review } = body;
+          expect(review).toEqual({
+            review_id: 1,
+            title: "Agricola",
+            review_body: "Farmyard fun!",
+            designer: "Uwe Rosenberg",
+            review_img_url:
+              "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+            votes: 1,
+            category: "euro game",
+            owner: "mallionaire",
+            created_at: "2021-01-18T10:00:20.514Z",
+          });
         });
     });
 
-    xit("400: Bad Request", () => {
-      // /dog
+    it("400: invalid review_id parametric endpoint", () => {
+      return request(app)
+        .get("/api/reviews/i-am-groot")
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad Request");
+        });
     });
 
-    xit("404: Not Found", () => {
-      // /9999999
+    it("404: responds with correct message for non-existent review_id", () => {
+      return request(app)
+        .get("/api/reviews/9999999")
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Not Found");
+        });
     });
   });
 

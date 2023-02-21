@@ -14,8 +14,9 @@ exports.getReviews = (request, response, next) => {
 exports.getReviewById = (request, response, next) => {
   const { review_id } = request.params;
 
-    fetchReviewById(review_id).then((review) => {
-        console.log(review);
-    response.status(200).send({ review });
-  });
+  fetchReviewById(review_id)
+    .then((review) => {
+      response.status(200).send({ review });
+    })
+    .catch((error) => next(error));
 };
