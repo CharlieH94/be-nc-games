@@ -1,6 +1,0 @@
-You are now connected to database "nc_games_test" as user "charliehooper".
- review_id |  title   | category  |   designer    |    owner    |  review_body  |                                review_img_url                                |       created_at        | votes 
------------+----------+-----------+---------------+-------------+---------------+------------------------------------------------------------------------------+-------------------------+-------
-         1 | Agricola | euro game | Uwe Rosenberg | mallionaire | Farmyard fun! | https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700 | 2021-01-18 10:00:20.514 |     1
-(1 row)
-
