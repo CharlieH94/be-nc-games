@@ -68,6 +68,28 @@ describe('app', () => {
 
     });
 
+    describe('POST /api/reviews/:review_id/comments', () => {
+        it('201: responds with posted comment', () => {
+            return request(app)
+                .post('/api/reviews/1/comments')
+                .send({
+                    username: 'philippaclaire9',
+                    body: 'I am Groot'
+                })
+                .expect(201)
+                .then(({ body: { comment } }) => {
+                    expect(comment).toMatchObject( {
+                        comment_id: 7,
+                        body: 'I am Groot',
+                        review_id: 1,
+                        author: 'philippaclaire9',
+                        votes: 0,
+                        created_at: expect.any(String)
+                      })
+                });
+        });
+    });
+
     describe('error handling', () => {
         
         it('404: responds with correct message for non-existent path', () => {
