@@ -140,6 +140,15 @@ describe("app", () => {
           });
         });
     });
+    it("200: responds with an empty array for a review_id with no comments", () => {
+        return request(app)
+          .get("/api/reviews/1/comments")
+          .expect(200)
+          .then(({ body }) => {
+            const { comments } = body;
+            expect(comments).toEqual([]);
+          });
+      });
   });
 
   describe("error handling", () => {
