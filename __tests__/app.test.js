@@ -68,15 +68,15 @@ describe('app', () => {
 
     });
 
-    xdescribe('error handling', () => {
+    describe('error handling', () => {
         
-        it.only('404: GET responds with correct message for valid but non-existent paths', () => {
+        it('404: GET responds with correct message for non-existent path', () => {
             return request(app)
                 .get('/api/bananas')
-                .expect(200)
+                .expect(404)
                 .then(({ body }) => {
                     const { msg } = body;
-                    expect(msg).toBe('Not Found');
+                    expect(msg).toBe('Sorry can\'t find that!');
             })
         })        
     });
