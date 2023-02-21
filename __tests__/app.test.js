@@ -148,6 +148,25 @@ describe("app", () => {
             const { comments } = body;
             expect(comments).toEqual([]);
           });
+    });
+    it("400: invalid review_id parametric endpoint", () => {
+        return request(app)
+          .get("/api/reviews/i-am-groot/comments")
+          .expect(400)
+          .then(({ body }) => {
+            const { msg } = body;
+            expect(msg).toBe("Bad Request");
+          });
+      });
+  
+      xit("404: responds with correct message for non-existent review_id", () => {
+        return request(app)
+          .get("/api/reviews/9999999/comments")
+          .expect(404)
+          .then(({ body }) => {
+            const { msg } = body;
+            expect(msg).toBe("Not Found");
+          });
       });
   });
 
