@@ -1,18 +1,8 @@
 You are now connected to database "nc_games_test" as user "charliehooper".
-      owner      |                        title                         | review_id |     category     |                                 review_img_url                                 |       created_at        | votes |        designer        | comment_count 
------------------+------------------------------------------------------+-----------+------------------+--------------------------------------------------------------------------------+-------------------------+-------+------------------------+---------------
- mallionaire     | Mollit elit qui incididunt veniam occaecat cupidatat |         7 | social deduction | https://images.pexels.com/photos/776657/pexels-photo-776657.jpeg?w=700&h=700   | 2021-01-25 11:16:54.963 |     9 | Avery Wunzboogerz      |             0
- mallionaire     | Dolor reprehenderit                                  |         4 | social deduction | https://images.pexels.com/photos/278918/pexels-photo-278918.jpeg?w=700&h=700   | 2021-01-22 11:35:50.936 |     7 | Gamey McGameface       |             0
- mallionaire     | Scythe; you're gonna need a bigger table!            |        12 | social deduction | https://images.pexels.com/photos/4200740/pexels-photo-4200740.jpeg?w=700&h=700 | 2021-01-22 10:37:04.839 |   100 | Jamey Stegmaier        |             0
- mallionaire     | Build you own tour de Yorkshire                      |        10 | social deduction | https://images.pexels.com/photos/258045/pexels-photo-258045.jpeg?w=700&h=700   | 2021-01-18 10:01:41.251 |    10 | Asger Harding Granerud |             0
- bainesface      | Ultimate Werewolf                                    |         3 | social deduction | https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?w=700&h=700 | 2021-01-18 10:01:41.251 |     5 | Akihisa Okui           |             3
- philippaclaire9 | Jenga                                                |         2 | dexterity        | https://images.pexels.com/photos/4473494/pexels-photo-4473494.jpeg?w=700&h=700 | 2021-01-18 10:01:41.251 |     5 | Leslie Scott           |             3
- mallionaire     | A truly Quacking Game; Quacks of Quedlinburg         |         9 | social deduction | https://images.pexels.com/photos/279321/pexels-photo-279321.jpeg?w=700&h=700   | 2021-01-18 10:01:41.251 |    10 | Wolfgang Warsch        |             0
- mallionaire     | That's just what an evil person would say!           |        11 | social deduction | https://images.pexels.com/photos/220057/pexels-photo-220057.jpeg?w=700&h=700   | 2021-01-18 10:01:41.251 |     8 | Fiona Lohoar           |             0
- mallionaire     | One Night Ultimate Werewolf                          |         8 | social deduction | https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?w=700&h=700 | 2021-01-18 10:01:41.251 |     5 | Akihisa Okui           |             0
- mallionaire     | Agricola                                             |         1 | euro game        | https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700   | 2021-01-18 10:00:20.514 |     1 | Uwe Rosenberg          |             0
- mallionaire     | Proident tempor et.                                  |         5 | social deduction | https://images.pexels.com/photos/209728/pexels-photo-209728.jpeg?w=700&h=700   | 2021-01-07 09:06:08.077 |     5 | Seymour Buttz          |             0
- mallionaire     | Occaecat consequat officia in quis commodo.          |         6 | social deduction | https://images.pexels.com/photos/207924/pexels-photo-207924.jpeg?w=700&h=700   | 2020-09-13 15:19:28.077 |     8 | Ollie Tabooger         |             0
- mallionaire     | Settlers of Catan: Don't Settle For Less             |        13 | social deduction | https://images.pexels.com/photos/1153929/pexels-photo-1153929.jpeg?w=700&h=700 | 1970-01-10 03:08:38.4   |    16 | Klaus Teuber           |             0
-(13 rows)
+ comment_id |                                   body                                    | review_id |   author    | votes |       created_at        
+------------+---------------------------------------------------------------------------+-----------+-------------+-------+-------------------------
+          5 | Now this is a story all about how, board games turned my life upside down |         2 | mallionaire |    13 | 2021-01-18 10:24:05.41
+          1 | I loved this game too!                                                    |         2 | bainesface  |    16 | 2017-11-22 12:43:33.389
+          4 | EPIC board game!                                                          |         2 | bainesface  |    16 | 2017-11-22 12:36:03.389
+(3 rows)
 
