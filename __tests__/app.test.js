@@ -159,7 +159,7 @@ describe("app", () => {
           });
       });
   
-      xit("404: responds with correct message for non-existent review_id", () => {
+      it("404: responds with correct message for non-existent review_id", () => {
         return request(app)
           .get("/api/reviews/9999999/comments")
           .expect(404)
