@@ -1,8 +1,6 @@
 You are now connected to database "nc_games_test" as user "charliehooper".
- comment_id |                                   body                                    | review_id |   author    | votes |       created_at        
-------------+---------------------------------------------------------------------------+-----------+-------------+-------+-------------------------
-          5 | Now this is a story all about how, board games turned my life upside down |         2 | mallionaire |    13 | 2021-01-18 10:24:05.41
-          1 | I loved this game too!                                                    |         2 | bainesface  |    16 | 2017-11-22 12:43:33.389
-          4 | EPIC board game!                                                          |         2 | bainesface  |    16 | 2017-11-22 12:36:03.389
-(3 rows)
+ review_id |  title   | category  |   designer    |    owner    |  review_body  |                                review_img_url                                |       created_at        | votes 
+-----------+----------+-----------+---------------+-------------+---------------+------------------------------------------------------------------------------+-------------------------+-------
+         1 | Agricola | euro game | Uwe Rosenberg | mallionaire | Farmyard fun! | https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700 | 2021-01-18 10:00:20.514 |     1
+(1 row)
 

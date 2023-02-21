@@ -66,38 +66,80 @@ describe("app", () => {
     });
   });
 
+  describe("GET /api/reviews/:review_id", () => {
+    it("200: responds with a review object", () => {
+      return request(app)
+        .get("/api/reviews/1")
+        .expect(200)
+        .then(({ body }) => {
+          const { review } = body;
+          expect(review).toEqual({
+            review_id: 1,
+            title: "Agricola",
+            review_body: "Farmyard fun!",
+            designer: "Uwe Rosenberg",
+            review_img_url:
+              "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+            votes: 1,
+            category: "euro game",
+            owner: "mallionaire",
+            created_at: "2021-01-18T10:00:20.514Z",
+          });
+        });
+    });
+
+    it("400: invalid review_id parametric endpoint", () => {
+      return request(app)
+        .get("/api/reviews/i-am-groot")
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad Request");
+        });
+    });
+
+    it("404: responds with correct message for non-existent review_id", () => {
+      return request(app)
+        .get("/api/reviews/9999999")
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Not Found");
+        });
+    });
+  });
+
   describe("GET /api/reviews/:review_id/comments", () => {
     it("200: responds with an array of comments for given review_id", () => {
-        return request(app)
-            .get('/api/reviews/2/comments')
-            .expect(200)
-            .then(({ body }) => {
-                const { comments } = body;
-                expect(comments.length).toBe(3);
-                comments.forEach(comment => {
-                    expect(comment).toMatchObject({
-                        comment_id: expect.any(Number),
-                        votes: expect.any(Number),
-                        created_at: expect.any(String),
-                        author: expect.any(String),
-                        body: expect.any(String),
-                        review_id: expect.any(Number)
-                    })
-                })
-            }
-        );
-    });
-    it("200: response sorted by date descending", () => {
-        return request(app)
-          .get("/api/reviews/2/comments")
-          .expect(200)
-          .then(({ body }) => {
-            const { comments } = body;
-            expect(comments).toBeSortedBy("created_at", {
-              descending: true,
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments.length).toBe(3);
+          comments.forEach((comment) => {
+            expect(comment).toMatchObject({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+              review_id: expect.any(Number),
             });
           });
-      });
+        });
+    });
+    it("200: response sorted by date descending", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments).toBeSortedBy("created_at", {
+            descending: true,
+          });
+        });
+    });
   });
 
   describe("error handling", () => {
