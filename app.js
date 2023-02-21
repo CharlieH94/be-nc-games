@@ -10,7 +10,7 @@ app.get("/api/categories", getCategories);
 
 app.get("/api/reviews", getReviews)
 
-app.use(handle404NonExistentPath)
+app.use("/*", handle404NonExistentPath)
 
 app.use(handle500Statuses);
 
