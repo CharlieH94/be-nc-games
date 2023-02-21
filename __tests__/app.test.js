@@ -70,13 +70,13 @@ describe('app', () => {
 
     describe('error handling', () => {
         
-        it('404: GET responds with correct message for non-existent path', () => {
+        it('404: responds with correct message for non-existent path', () => {
             return request(app)
-                .get('/api/bananas')
+                .get('/api/i-am-groot')
                 .expect(404)
                 .then(({ body }) => {
                     const { msg } = body;
-                    expect(msg).toBe('Sorry can\'t find that!');
+                    expect(msg).toBe('Path Not Found');
             })
         })        
     });

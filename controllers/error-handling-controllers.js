@@ -3,6 +3,6 @@ exports.handle500Statuses = (error, request, response, next) => {
     response.status(500).send({ msg: "500: Internal Server Error"});
 };
 
-exports.handle404Status = (request, response, next) => {
-    response.status(404).send({msg: 'Sorry can\'t find that!'})
+exports.handle404NonExistentPath = (request, response, next) => {
+    response.status(404).send({msg: 'Path Not Found'})
 }
