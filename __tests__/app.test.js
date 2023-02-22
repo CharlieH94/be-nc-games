@@ -170,6 +170,18 @@ describe("app", () => {
       });
   });
 
+  xdescribe('PATCH /api/reviews/:review_id', () => {
+    it('200: responds with whole updated review', () => {
+      return request(app)
+        .patch('/api/reviews/2/')
+      .expect(200)
+        .then(({ body: {review} }) => {
+        expect(review).toMatchObject({})
+      })
+    });
+
+  });
+
   describe("error handling", () => {
     it("404: responds with correct message for non-existent path", () => {
       return request(app)

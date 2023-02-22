@@ -29,3 +29,18 @@ exports.fetchReviewById = (review_id) => {
       return result.rows[0];
     });
 };
+
+exports.updateVotesByReviewId = (review_id, voteObj) => {
+  return db
+  .query(
+    `
+  SELECT * FROM reviews WHERE review_id = $1`,
+    [review_id]
+  )
+  .then((result) => {
+    if (result.rowCount === 0) {
+      return Promise.reject("No ID Found");
+    }
+    return result.rows[0];
+  });
+}
