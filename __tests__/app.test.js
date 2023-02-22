@@ -87,6 +87,86 @@ describe("app", () => {
           });
         });
     });
+    it("400: invalid review_id parametric endpoint", () => {
+      return request(app)
+        .get("/api/reviews/i-am-groot")
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Bad Request");
+        });
+    });
+
+    it("404: responds with correct message for non-existent review_id", () => {
+      return request(app)
+        .get("/api/reviews/9999999")
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Not Found");
+        });
+    });
+  });
+
+  describe("GET /api/reviews/:review_id/comments", () => {
+    it("200: responds with an array of comments for given review_id", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments.length).toBe(3);
+          comments.forEach((comment) => {
+            expect(comment).toMatchObject({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+              review_id: expect.any(Number),
+            });
+          });
+        });
+    });
+    it("200: response sorted by date descending", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments).toBeSortedBy("created_at", {
+            descending: true,
+          });
+        });
+    });
+    it("200: responds with an empty array for a review_id with no comments", () => {
+        return request(app)
+          .get("/api/reviews/1/comments")
+          .expect(200)
+          .then(({ body }) => {
+            const { comments } = body;
+            expect(comments).toEqual([]);
+          });
+    });
+    it("400: invalid review_id parametric endpoint", () => {
+        return request(app)
+          .get("/api/reviews/i-am-groot/comments")
+          .expect(400)
+          .then(({ body }) => {
+            const { msg } = body;
+            expect(msg).toBe("Bad Request");
+          });
+      });
+  
+      it("404: responds with correct message for non-existent review_id", () => {
+        return request(app)
+          .get("/api/reviews/9999999/comments")
+          .expect(404)
+          .then(({ body }) => {
+            const { msg } = body;
+            expect(msg).toBe("Not Found");
+          });
+      });
   });
 
   describe("POST /api/reviews/:review_id/comments", () => {
@@ -131,25 +211,6 @@ describe("app", () => {
         .then(({ body }) => {
           const { msg } = body;
           expect(msg).toBe("Path Not Found");
-        });
-    });
-    it("400: invalid review_id parametric endpoint", () => {
-      return request(app)
-        .get("/api/reviews/i-am-groot")
-        .expect(400)
-        .then(({ body }) => {
-          const { msg } = body;
-          expect(msg).toBe("Bad Request");
-        });
-    });
-
-    it("404: responds with correct message for non-existent review_id", () => {
-      return request(app)
-        .get("/api/reviews/9999999")
-        .expect(404)
-        .then(({ body }) => {
-          const { msg } = body;
-          expect(msg).toBe("Not Found");
         });
     });
   });

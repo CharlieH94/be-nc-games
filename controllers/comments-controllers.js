@@ -1,11 +1,24 @@
-const { insertComment } = require('../models/comments-models.js')
+const { fetchComments, insertComment } = require('../models/comments-models.js')
+const { fetchReviewById } = require('../models/reviews-models.js');
 
+exports.getCommentsByReviewId = (request, response, next) => {
+    const { review_id } = request.params;
+    const reviewCheck = fetchReviewById(review_id);
+    const commentsPromise = fetchComments(review_id)
+    
+    Promise.all([commentsPromise, reviewCheck])
+        .then(( [comments] ) => {
+            response.status(200).send({ comments })
+        }).catch(error => next(error));
+    }
+    
 exports.postComment = (request, response, next) => {
-    const {review_id} = request.params
+    const { review_id } = request.params;
     const newComment = request.body;
 
-    insertComment(newComment, review_id).then(comment => {
-        response.status(201).send({comment})
+    insertComment(newComment, review_id)
+    .then((comment) => {
+        response.status(201).send({ comment });
     })
     .catch((error) => next(error));
 };
