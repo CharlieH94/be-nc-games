@@ -169,7 +169,7 @@ describe("app", () => {
       });
   });
 
-  describe.only("POST /api/reviews/:review_id/comments", () => {
+  describe("POST /api/reviews/:review_id/comments", () => {
     it("201: responds with posted comment", () => {
       return request(app)
         .post("/api/reviews/1/comments")
@@ -255,7 +255,7 @@ describe("app", () => {
         expect(msg).toBe("Bad Request");
       })
     });
-    xit('??? 404: non-existent review_id', () => {
+    it('??? 404: non-existent review_id', () => {
       return request(app)
         .post("/api/reviews/99999999/comments")
         .send({
@@ -264,7 +264,6 @@ describe("app", () => {
         })
         .expect(404)
       .then(({ body: { msg } }) => {
-        console.log(body);
         expect(msg).toBe("Not Found");
       })
     });
