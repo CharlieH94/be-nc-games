@@ -189,17 +189,39 @@ describe("app", () => {
           });
         });
     });
-    xit("400: bad request if invalid request body (eg non-existent username)", () => {
+    it("400: bad request if invalid request body (eg username wrong data type)", () => {
       return request(app)
         .post("/api/reviews/1/comments")
         .send({
-          username: "iAmGroot",
+          username: 117,
           body: "I am Groot",
         })
-        .expect(201)
+        .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toBe("Bad Request");
         });
+    });
+    it('400: request body not containing required body', () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          username: 'philippaclaire9'
+        })
+        .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Missing Required Properties");
+      })
+    });
+    it('400: request body not containing required username', () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          body: 'I am Groot'
+        })
+        .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Missing Required Properties");
+      })
     });
   });
 
