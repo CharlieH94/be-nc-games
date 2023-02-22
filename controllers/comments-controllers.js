@@ -17,7 +17,7 @@ exports.postComment = (request, response, next) => {
     const newComment = request.body;
 
     insertComment(newComment, review_id)
-    .then((comment) => {
+        .then((comment) => {
         response.status(201).send({ comment });
     })
     .catch((error) => next(error));
