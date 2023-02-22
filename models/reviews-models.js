@@ -29,20 +29,3 @@ exports.fetchReviewById = (review_id) => {
       return result.rows[0];
     });
 };
-
-exports.selectReviewById = (review_id) => {
-  let queryString = "SELECT * FROM reviews";
-  const queryParams = [];
-
-  if (review_id !== undefined) {
-    queryString += " WHERE review_id = $1";
-    queryParams.push(review_id);
-  }
-
-  return db.query(queryString, queryParams).then((result) => {
-    if (result.rowCount === 0) {
-      return Promise.reject("No ID Found");
-    }
-    return result.rows[0];
-  });
-};

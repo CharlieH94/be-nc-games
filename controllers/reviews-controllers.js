@@ -1,6 +1,6 @@
 const {
   fetchReviews,
-  selectReviewById,
+  fetchReviewById,
 } = require("../models/reviews-models.js");
 
 exports.getReviews = (request, response, next) => {
@@ -14,7 +14,7 @@ exports.getReviews = (request, response, next) => {
 exports.getReviewById = (request, response, next) => {
   const { review_id } = request.params;
 
-  selectReviewById(review_id)
+  fetchReviewById(review_id)
     .then((review) => {
       response.status(200).send({ review });
     })
