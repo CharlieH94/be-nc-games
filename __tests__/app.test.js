@@ -73,7 +73,7 @@ describe("app", () => {
         .expect(200)
         .then(({ body }) => {
           const { review } = body;
-          expect(review).toEqual({
+          expect(review).toMatchObject({
             review_id: 1,
             title: "Agricola",
             review_body: "Farmyard fun!",
@@ -85,6 +85,15 @@ describe("app", () => {
             owner: "mallionaire",
             created_at: "2021-01-18T10:00:20.514Z",
           });
+        });
+    });
+    xit("??? 200: review object has comment count property", () => {
+      return request(app)
+        .get("/api/reviews/1")
+        .expect(200)
+        .then(({ body }) => {
+          const { review } = body;
+          expect(review).toHaveProperty('comment_count')
         });
     });
     it("400: invalid review_id parametric endpoint", () => {
