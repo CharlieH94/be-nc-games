@@ -11,7 +11,7 @@ exports.handlePSQL400s = (error, request, response, next) => {
 }
 
 exports.handleCustomErrors = (error, request, response, next) => {
-    if (error === 'No ID Found') {
+    if (error === 'No ID Found' || error === 'No Category Found') {
         response.status(404).send({msg: 'Not Found'})
     } else if (error === 'Invalid Sort Query' || error === 'Invalid Order Query') {
         response.status(400).send({msg: error})

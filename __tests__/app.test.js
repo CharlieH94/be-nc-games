@@ -112,6 +112,24 @@ describe("app", () => {
           });
         });
       });
+      it ('200: responds with empty array for valid category with no reviews associated', () => {
+        return request(app)
+        .get("/api/reviews?category=children's games")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toEqual([]);
+        });
+      });
+      it ('404: category not in database', () => {
+        return request(app)
+        .get("/api/reviews?category=bananas")
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Not Found");
+        });
+      });
       it ('400: invalid sort by query', () => {
         return request(app)
         .get("/api/reviews?sort_by=bananas")

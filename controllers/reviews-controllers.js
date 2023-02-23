@@ -3,12 +3,20 @@ const {
   fetchReviewById,
   updateVotesByReviewId
 } = require("../models/reviews-models.js");
+const {fetchCategoryByName} = require('../models/categories-models.js')
 
 exports.getReviews = (request, response, next) => {
-  const { category , sort_by, order} = request.query;
+  const { category, sort_by, order } = request.query;
+  const reviewsPromise = fetchReviews(category, sort_by, order);
+  const promiseArray = [reviewsPromise];
 
-  fetchReviews(category, sort_by, order)
-    .then((reviews) => {
+  if (category !== undefined) {
+    const categoryCheck = fetchCategoryByName(category);
+    promiseArray.push(categoryCheck);
+  }
+  
+  Promise.all(promiseArray)
+  .then(([reviews]) => {
       response.status(200).send({ reviews });
     })
     .catch((error) => next(error));
