@@ -172,7 +172,7 @@ describe("app", () => {
           });
         });
     });
-    xit("??? 200: review object has comment count property", () => {
+    it("200: review object has comment count property", () => {
       return request(app)
         .get("/api/reviews/1")
         .expect(200)

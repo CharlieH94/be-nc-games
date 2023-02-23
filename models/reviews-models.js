@@ -40,11 +40,11 @@ exports.fetchReviews = (category, sort_by = "created_at", order = "DESC") => {
 
 exports.fetchReviewById = (review_id) => {
   return db
-    .query(
-      `
-    SELECT * FROM reviews WHERE review_id = $1`,
-      [review_id]
-    )
+    .query(`
+      SELECT reviews.review_id, title, review_body, designer, review_img_url, reviews.votes, category, owner, reviews.created_at, COUNT(comments.comment_id) AS comment_count FROM reviews 
+  FULL JOIN comments ON reviews.review_id = comments.review_id
+  WHERE reviews.review_id = $1
+  GROUP BY reviews.review_id;`, [review_id])
     .then((result) => {
       if (result.rowCount === 0) {
         return Promise.reject("No ID Found");
