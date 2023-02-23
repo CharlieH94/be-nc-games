@@ -78,7 +78,7 @@ describe("app", () => {
     });
 
     describe('queries', () => {
-      it.only ('200: responds with reviews in specified category', () => {
+      it ('200: responds with reviews in specified category', () => {
         return request(app)
         .get("/api/reviews?category=social deduction")
         .expect(200)
@@ -88,6 +88,46 @@ describe("app", () => {
           reviews.forEach((review) => {
             expect(review.category).toBe('social deduction');
           });
+        });
+      });
+      it ('200: responds with reviews sorted by specified column', () => {
+        return request(app)
+        .get("/api/reviews?sort_by=review_id")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toBeSortedBy("review_id", {
+            descending: true,
+          });
+        });
+      });
+      it ('200: responds with reviews order as specified', () => {
+        return request(app)
+        .get("/api/reviews?order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toBeSortedBy("created_at", {
+            ascending: true,
+          });
+        });
+      });
+      it ('400: invalid sort by query', () => {
+        return request(app)
+        .get("/api/reviews?sort_by=bananas")
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Invalid Sort Query");
+        });
+      });
+      it ('400: invalid order query', () => {
+        return request(app)
+        .get("/api/reviews?order=bananas")
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Invalid Order Query");
         });
       });
     }); 
@@ -393,4 +433,22 @@ describe("app", () => {
         });
     });
   })
+
+  describe('GET /api/users', () => {
+    it('returns an array of objects', () => {
+      return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({ body : {users}}) => {
+          expect(users.length).toBe(4)
+          users.forEach(user => {
+            expect(user).toMatchObject({
+              username: expect.any(String),
+              name: expect.any(String),
+              avatar_url: expect.any(String)
+            })
+          })
+      })
+    });
+  });
 });
