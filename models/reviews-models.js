@@ -31,16 +31,20 @@ exports.fetchReviewById = (review_id) => {
 };
 
 exports.updateVotesByReviewId = (review_id, voteObj) => {
-  return db
-  .query(
-    `
-  SELECT * FROM reviews WHERE review_id = $1`,
-    [review_id]
-  )
-  .then((result) => {
-    if (result.rowCount === 0) {
-      return Promise.reject("No ID Found");
-    }
+  const { inc_votes } = voteObj;
+  const variables = [review_id];
+  let queryString = "UPDATE reviews SET votes = votes";
+
+  if (inc_votes !== undefined) {
+    queryString += " + $2";
+    variables.push(inc_votes);
+  }
+  queryString += " WHERE review_id = $1 RETURNING *;";
+
+  return db.query(queryString, variables).then((result) => {
+    // if (result.rowCount === 0) {
+    //   return Promise.reject("No ID Found");
+    // }
     return result.rows[0];
   });
-}
+};
