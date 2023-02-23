@@ -244,8 +244,27 @@ describe("app", () => {
           expect(msg).toBe('Bad Request');
         });
     })
-    it('400: invalid ', () => {
-      
+    it('400: invalid review id', () => {
+      return request(app)
+        .patch('/api/reviews/i-am-groot/')
+        .send({
+          inc_votes: 2
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Bad Request');
+        });
+    });
+    it('404: non-existent review id', () => {
+      return request(app)
+        .patch('/api/reviews/9999999/')
+        .send({
+          inc_votes: 2
+        })
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Not Found');
+        });
     });
   });
 

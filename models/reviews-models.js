@@ -42,9 +42,9 @@ exports.updateVotesByReviewId = (review_id, voteObj) => {
   queryString += " WHERE review_id = $1 RETURNING *;";
 
   return db.query(queryString, variables).then((result) => {
-    // if (result.rowCount === 0) {
-    //   return Promise.reject("No ID Found");
-    // }
+    if (result.rowCount === 0) {
+      return Promise.reject("No ID Found");
+    }
     return result.rows[0];
   });
 };
