@@ -5,8 +5,11 @@ const {
 } = require("../models/reviews-models.js");
 
 exports.getReviews = (request, response, next) => {
-  fetchReviews()
+  const { category } = request.query;
+
+  fetchReviews(category)
     .then((reviews) => {
+      console.log(reviews)
       response.status(200).send({ reviews });
     })
     .catch((error) => next(error));

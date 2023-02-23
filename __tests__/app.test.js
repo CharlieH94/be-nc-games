@@ -78,8 +78,17 @@ describe("app", () => {
     });
 
     describe('queries', () => {
-      it('should ', () => {
-        
+      it.only ('200: responds with reviews in specified category', () => {
+        return request(app)
+        .get("/api/reviews?category=social deduction")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews.length).toBe(11);
+          reviews.forEach((review) => {
+            expect(review.category).toBe('social deduction');
+          });
+        });
       });
     }); 
   });
