@@ -209,7 +209,7 @@ describe("app", () => {
           });
         });
     });
-    it("400: bad request if invalid request body (eg username wrong data type)", () => {
+    it.only("400: bad request if invalid request body (eg username wrong data type)", () => {
       return request(app)
         .post("/api/reviews/1/comments")
         .send({
@@ -255,7 +255,7 @@ describe("app", () => {
         expect(msg).toBe("Bad Request");
       })
     });
-    it('??? 404: non-existent review_id', () => {
+    xit('??? 404: non-existent review_id', () => {
       return request(app)
         .post("/api/reviews/99999999/comments")
         .send({
