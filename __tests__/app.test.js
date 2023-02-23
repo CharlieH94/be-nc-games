@@ -14,6 +14,18 @@ beforeEach(() => seed({ categoryData, commentData, reviewData, userData }));
 afterAll(() => db.end());
 
 describe("app", () => {
+  describe("error handling", () => {
+    it("404: responds with correct message for non-existent path", () => {
+      return request(app)
+        .get("/api/i-am-groot")
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Path Not Found");
+        });
+    });
+  });
+
   describe("GET /api/categories", () => {
     test("200: Responds with an array of category objects", () => {
       return request(app)
@@ -64,6 +76,12 @@ describe("app", () => {
           });
         });
     });
+
+    describe('queries', () => {
+      it('should ', () => {
+        
+      });
+    }); 
   });
 
   describe("GET /api/reviews/:review_id", () => {
@@ -366,16 +384,4 @@ describe("app", () => {
         });
     });
   })
-
-  describe("error handling", () => {
-    it("404: responds with correct message for non-existent path", () => {
-      return request(app)
-        .get("/api/i-am-groot")
-        .expect(404)
-        .then(({ body }) => {
-          const { msg } = body;
-          expect(msg).toBe("Path Not Found");
-        });
-    });
-  });
 });
