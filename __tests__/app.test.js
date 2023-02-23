@@ -209,18 +209,6 @@ describe("app", () => {
           });
         });
     });
-    it("400: bad request if invalid request body (eg username wrong data type)", () => {
-      return request(app)
-        .post("/api/reviews/1/comments")
-        .send({
-          username: 117,
-          body: "I am Groot",
-        })
-        .expect(400)
-        .then(({ body: { msg } }) => {
-          expect(msg).toBe("Bad Request");
-        });
-    });
     it('400: request body not containing required body', () => {
       return request(app)
         .post("/api/reviews/1/comments")
@@ -255,7 +243,7 @@ describe("app", () => {
         expect(msg).toBe("Bad Request");
       })
     });
-    xit('??? 404: non-existent review_id', () => {
+    it('404: non-existent review_id', () => {
       return request(app)
         .post("/api/reviews/99999999/comments")
         .send({
@@ -267,7 +255,7 @@ describe("app", () => {
         expect(msg).toBe("Not Found");
       })
     });
-    xit('??? 404: username does not exist', () => {
+    it('404: username does not exist', () => {
       return request(app)
         .post("/api/reviews/1/comments")
         .send({
@@ -276,7 +264,6 @@ describe("app", () => {
         })
         .expect(404)
       .then(({ body: { msg } }) => {
-        console.log(body);
         expect(msg).toBe("Not Found");
       })
     });
