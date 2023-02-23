@@ -87,7 +87,6 @@ describe("app", () => {
           });
         });
     });
-
     it("400: invalid review_id parametric endpoint", () => {
       return request(app)
         .get("/api/reviews/i-am-groot")
@@ -170,6 +169,106 @@ describe("app", () => {
       });
   });
 
+  describe("POST /api/reviews/:review_id/comments", () => {
+    it("201: responds with posted comment", () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          username: "philippaclaire9",
+          body: "I am Groot",
+        })
+        .expect(201)
+        .then(({ body: { comment } }) => {
+          expect(comment).toMatchObject({
+            comment_id: 7,
+            body: "I am Groot",
+            review_id: 1,
+            author: "philippaclaire9",
+            votes: 0,
+            created_at: expect.any(String),
+          });
+        });
+    });
+    it("201: ignores unrequired keys", () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          username: "philippaclaire9",
+          body: "I am Groot",
+          banana: 'yellow'
+        })
+        .expect(201)
+        .then(({ body: { comment } }) => {
+          expect(comment).toMatchObject({
+            comment_id: 7,
+            body: "I am Groot",
+            review_id: 1,
+            author: "philippaclaire9",
+            votes: 0,
+            created_at: expect.any(String),
+          });
+        });
+    });
+    it('400: request body not containing required body', () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          username: 'philippaclaire9'
+        })
+        .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Missing Required Properties");
+      })
+    });
+    it('400: request body not containing required username', () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          body: 'I am Groot'
+        })
+        .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Missing Required Properties");
+      })
+    });
+    it('400: invalid review_id', () => {
+      return request(app)
+        .post("/api/reviews/groot/comments")
+        .send({
+          username: 'philippaclaire9',
+          body: 'I am Groot'
+        })
+        .expect(400)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Bad Request");
+      })
+    });
+    it('404: non-existent review_id', () => {
+      return request(app)
+        .post("/api/reviews/99999999/comments")
+        .send({
+          username: 'philippaclaire9',
+          body: 'I am Groot'
+        })
+        .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Not Found");
+      })
+    });
+    it('404: username does not exist', () => {
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send({
+          username: 'iAmGroot',
+          body: 'I am Groot'
+        })
+        .expect(404)
+      .then(({ body: { msg } }) => {
+        expect(msg).toBe("Not Found");
+      })
+    });
+  });
+
   describe('PATCH /api/reviews/:review_id', () => {
     it('200: responds with whole updated review', () => {
       return request(app)
@@ -191,7 +290,7 @@ describe("app", () => {
             "votes": 8
           });
         });
-    })
+    });
     it('200: responds with unmodified review if empty input', () => {
       return request(app)
         .patch('/api/reviews/2/')
@@ -210,7 +309,7 @@ describe("app", () => {
             "votes": 5
           });
         });
-    })
+    });
     it('200: ignores additional request body properties', () => {
       return request(app)
         .patch('/api/reviews/2/')
@@ -232,7 +331,7 @@ describe("app", () => {
             "votes": 7
           });
         });
-    })
+    });
     it('400: wrong format eg votes NaN', () => {
       return request(app)
         .patch('/api/reviews/2/')
@@ -243,7 +342,7 @@ describe("app", () => {
         .then(({ body: { msg } }) => {
           expect(msg).toBe('Bad Request');
         });
-    })
+    });
     it('400: invalid review id', () => {
       return request(app)
         .patch('/api/reviews/i-am-groot/')
@@ -266,7 +365,7 @@ describe("app", () => {
           expect(msg).toBe('Not Found');
         });
     });
-  });
+  })
 
   describe("error handling", () => {
     it("404: responds with correct message for non-existent path", () => {
