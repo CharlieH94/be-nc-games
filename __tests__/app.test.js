@@ -367,6 +367,24 @@ describe("app", () => {
     });
   })
 
+  describe('GET /api/users', () => {
+    it('returns an array of objects', () => {
+      return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({ body : {users}}) => {
+          expect(users.length).toBe(4)
+          users.forEach(user => {
+            expect(user).toMatchObject({
+              username: expect.any(String),
+              name: expect.any(String),
+              avatar_url: expect.any(String)
+            })
+          })
+      })
+    });
+  });
+
   describe("error handling", () => {
     it("404: responds with correct message for non-existent path", () => {
       return request(app)
