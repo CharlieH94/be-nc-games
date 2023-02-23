@@ -269,6 +269,104 @@ describe("app", () => {
     });
   });
 
+  describe('PATCH /api/reviews/:review_id', () => {
+    it('200: responds with whole updated review', () => {
+      return request(app)
+        .patch('/api/reviews/2/')
+        .send({
+          inc_votes: 3
+        })
+        .expect(200)
+        .then(({ body: { review } }) => {
+          expect(review).toEqual({
+            "category": "dexterity",
+            "created_at": "2021-01-18T10:01:41.251Z",
+            "designer": "Leslie Scott",
+            "owner": "philippaclaire9",
+            "review_body": "Fiddly fun for all the family",
+            "review_id": 2,
+            "review_img_url": "https://images.pexels.com/photos/4473494/pexels-photo-4473494.jpeg?w=700&h=700",
+            "title": "Jenga",
+            "votes": 8
+          });
+        });
+    });
+    it('200: responds with unmodified review if empty input', () => {
+      return request(app)
+        .patch('/api/reviews/2/')
+        .send({})
+        .expect(200)
+        .then(({ body: { review } }) => {
+          expect(review).toEqual({
+            "category": "dexterity",
+            "created_at": "2021-01-18T10:01:41.251Z",
+            "designer": "Leslie Scott",
+            "owner": "philippaclaire9",
+            "review_body": "Fiddly fun for all the family",
+            "review_id": 2,
+            "review_img_url": "https://images.pexels.com/photos/4473494/pexels-photo-4473494.jpeg?w=700&h=700",
+            "title": "Jenga",
+            "votes": 5
+          });
+        });
+    });
+    it('200: ignores additional request body properties', () => {
+      return request(app)
+        .patch('/api/reviews/2/')
+        .send({
+          inc_votes: 2,
+          isGroot: true
+        })
+        .expect(200)
+        .then(({ body: { review } }) => {
+          expect(review).toEqual({
+            "category": "dexterity",
+            "created_at": "2021-01-18T10:01:41.251Z",
+            "designer": "Leslie Scott",
+            "owner": "philippaclaire9",
+            "review_body": "Fiddly fun for all the family",
+            "review_id": 2,
+            "review_img_url": "https://images.pexels.com/photos/4473494/pexels-photo-4473494.jpeg?w=700&h=700",
+            "title": "Jenga",
+            "votes": 7
+          });
+        });
+    });
+    it('400: wrong format eg votes NaN', () => {
+      return request(app)
+        .patch('/api/reviews/2/')
+        .send({
+          inc_votes: 'bananas'
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Bad Request');
+        });
+    });
+    it('400: invalid review id', () => {
+      return request(app)
+        .patch('/api/reviews/i-am-groot/')
+        .send({
+          inc_votes: 2
+        })
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Bad Request');
+        });
+    });
+    it('404: non-existent review id', () => {
+      return request(app)
+        .patch('/api/reviews/9999999/')
+        .send({
+          inc_votes: 2
+        })
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Not Found');
+        });
+    });
+  })
+
   describe("error handling", () => {
     it("404: responds with correct message for non-existent path", () => {
       return request(app)
