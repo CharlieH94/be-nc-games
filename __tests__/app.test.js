@@ -244,6 +244,9 @@ describe("app", () => {
           expect(msg).toBe('Bad Request');
         });
     })
+    it('400: invalid ', () => {
+      
+    });
   });
 
   describe("error handling", () => {
