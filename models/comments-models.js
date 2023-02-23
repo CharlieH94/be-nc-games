@@ -28,3 +28,18 @@ exports.insertComment = (newComment, review_id) => {
       return result.rows[0];
     });
 };
+
+exports.fetchCommentById = (comment_id) => {
+  return db
+    .query(
+      `
+      DELETE FROM comments WHERE comment_id = $1 RETURNING *;`,
+      [comment_id]
+    )
+    .then((result) => {
+      if (result.rowCount === 0) {
+        return Promise.reject("No ID Found");
+      }
+      return result.rows[0];
+    });
+};
