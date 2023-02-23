@@ -14,6 +14,18 @@ beforeEach(() => seed({ categoryData, commentData, reviewData, userData }));
 afterAll(() => db.end());
 
 describe("app", () => {
+  describe("error handling", () => {
+    it("404: responds with correct message for non-existent path", () => {
+      return request(app)
+        .get("/api/i-am-groot")
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Path Not Found");
+        });
+    });
+  });
+
   describe("GET /api/categories", () => {
     test("200: Responds with an array of category objects", () => {
       return request(app)
@@ -64,6 +76,79 @@ describe("app", () => {
           });
         });
     });
+
+    describe('queries', () => {
+      it ('200: responds with reviews in specified category', () => {
+        return request(app)
+        .get("/api/reviews?category=social deduction")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews.length).toBe(11);
+          reviews.forEach((review) => {
+            expect(review.category).toBe('social deduction');
+          });
+        });
+      });
+      it ('200: responds with reviews sorted by specified column', () => {
+        return request(app)
+        .get("/api/reviews?sort_by=review_id")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toBeSortedBy("review_id", {
+            descending: true,
+          });
+        });
+      });
+      it ('200: responds with reviews order as specified', () => {
+        return request(app)
+        .get("/api/reviews?order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toBeSortedBy("created_at", {
+            ascending: true,
+          });
+        });
+      });
+      it ('200: responds with empty array for valid category with no reviews associated', () => {
+        return request(app)
+        .get("/api/reviews?category=children's games")
+        .expect(200)
+        .then(({ body }) => {
+          const { reviews } = body;
+          expect(reviews).toEqual([]);
+        });
+      });
+      it ('404: category not in database', () => {
+        return request(app)
+        .get("/api/reviews?category=bananas")
+        .expect(404)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Not Found");
+        });
+      });
+      it ('400: invalid sort by query', () => {
+        return request(app)
+        .get("/api/reviews?sort_by=bananas")
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Invalid Sort Query");
+        });
+      });
+      it ('400: invalid order query', () => {
+        return request(app)
+        .get("/api/reviews?order=bananas")
+        .expect(400)
+        .then(({ body }) => {
+          const { msg } = body;
+          expect(msg).toBe("Invalid Order Query");
+        });
+      });
+    }); 
   });
 
   describe("GET /api/reviews/:review_id", () => {
@@ -391,18 +476,6 @@ describe("app", () => {
             })
           })
       })
-    });
-  });
-
-  describe("error handling", () => {
-    it("404: responds with correct message for non-existent path", () => {
-      return request(app)
-        .get("/api/i-am-groot")
-        .expect(404)
-        .then(({ body }) => {
-          const { msg } = body;
-          expect(msg).toBe("Path Not Found");
-        });
     });
   });
 });

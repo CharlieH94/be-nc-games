@@ -7,3 +7,18 @@ exports.fetchCategories = () => {
             return categoryData.rows;
     })
 }
+
+exports.fetchCategoryByName = (category) => {
+    return db
+        .query(
+          `
+        SELECT * FROM categories WHERE slug = $1`,
+          [category]
+        )
+        .then((result) => {
+          if (result.rowCount === 0) {
+            return Promise.reject("No Category Found");
+          }
+          return result.rows[0];
+        });
+}
