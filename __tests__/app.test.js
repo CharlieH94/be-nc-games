@@ -209,7 +209,7 @@ describe("app", () => {
           });
         });
     });
-    it.only("400: bad request if invalid request body (eg username wrong data type)", () => {
+    it("400: bad request if invalid request body (eg username wrong data type)", () => {
       return request(app)
         .post("/api/reviews/1/comments")
         .send({
