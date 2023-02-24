@@ -461,6 +461,33 @@ describe("app", () => {
     });
   })
 
+  describe('DELETE /api/comments/:comment_id', () => {
+    it('204: deletes given comment_id', () => {
+      return request(app)
+        .delete('/api/comments/1')
+        .expect(204);
+    });
+    it('400: invalid comment id', () => {
+      return request(app)
+        .delete('/api/comments/i-am-groot')
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Bad Request');
+        });
+    });
+    it('404: non-existent comment id', () => {
+      return request(app)
+        .delete('/api/comments/9999999/')
+        .send({
+          inc_votes: 2
+        })
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('Not Found');
+        });
+    });
+  });
+
   describe('GET /api/users', () => {
     it('returns an array of objects', () => {
       return request(app)
