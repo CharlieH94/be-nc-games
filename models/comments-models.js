@@ -29,7 +29,7 @@ exports.insertComment = (newComment, review_id) => {
     });
 };
 
-exports.fetchCommentById = (comment_id) => {
+exports.removeCommentById = (comment_id) => {
   return db
     .query(
       `
