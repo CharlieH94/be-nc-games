@@ -14,8 +14,13 @@ https://be-nc-games-project.onrender.com/
 ## Setup
 To set up on your local environment, you must:
 1. Clone this repo
-2. Install it's dependencies
-3. Seed the local database
+    - Fork this repo to your GitHub account
+    - Clone your copy locally using
+    `git clone <your-repo-url>` in a directory of your choosing     
+2. Install it's dependencies with `npm i`
+3. Then seed the local database
+    -  Drop/create the database with `npm run setup-dbs`
+    - Seed the database with `npm run seed`
 
 In order to successfully connect the 2 databases locally, you must add some.env files to your local project (see below).
 
@@ -30,6 +35,13 @@ Create two files:
     - This will allow connection to your test database
     - Paste the following into the file:
         PGDATABASE=data_base_name_test
+
+### Running Tests
+To run tests, use `npm run test <(optional) file.test.js>`
+
+## Minimum Requirements
+- Node.js `v18.12`
+- Postgres `15.1`
 
 ## Technologies
 - PSQL
