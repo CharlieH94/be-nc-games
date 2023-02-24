@@ -489,7 +489,7 @@ describe("app", () => {
   });
 
   describe('GET /api/users', () => {
-    it('returns an array of objects', () => {
+    it('returns an array of users', () => {
       return request(app)
         .get('/api/users')
         .expect(200)
@@ -501,6 +501,21 @@ describe("app", () => {
               name: expect.any(String),
               avatar_url: expect.any(String)
             })
+          })
+      })
+    });
+  });
+
+  describe('GET /api', () => {
+    it('returns JSON describing all available endpoints', () => {
+      return request(app)
+        .get('/api')
+        .expect(200)
+        .then(({ body: { endpoints } }) => {
+          Object.keys(endpoints).forEach(key => {
+            expect(endpoints[key]).toHaveProperty("description")
+            expect(endpoints[key]).toHaveProperty("queries")
+            expect(endpoints[key]).toHaveProperty("exampleResponse")
           })
       })
     });
