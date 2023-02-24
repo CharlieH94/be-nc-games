@@ -4,6 +4,7 @@ const { getReviews, getReviewById, patchReviewVotes} = require("./controllers/re
 const { postComment, getCommentsByReviewId , deleteCommentByCommentId} = require("./controllers/comments-controllers.js");
 const { handlePSQL400s, handleCustomErrors, handle500Statuses, handle404NonExistentPath } = require("./controllers/error-handling-controllers.js");
 const { getUsers } = require('./controllers/users-controllers.js');
+const { getEndpoints } = require('./controllers/endpoints-controller.js');
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.patch("/api/reviews/:review_id", patchReviewVotes);
 app.get("/api/users", getUsers);
 
 app.delete("/api/comments/:comment_id", deleteCommentByCommentId);
+
+app.get("/api", getEndpoints);
 
 app.use("/*", handle404NonExistentPath);
 
