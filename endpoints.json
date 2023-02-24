@@ -2,7 +2,7 @@
   "GET /api": {
     "description": "serves up a json representation of all the available endpoints of the api",
     "queries": [],
-    "exampleResponse": {"endpoints": "<...insert JSON here..."}
+    "exampleResponse": {"endpoints": "<...insert JSON here...>"}
   },
   "GET /api/categories": {
     "description": "serves an array of all categories",
