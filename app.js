@@ -5,8 +5,11 @@ const { postComment, getCommentsByReviewId , deleteCommentByCommentId} = require
 const { handlePSQL400s, handleCustomErrors, handle500Statuses, handle404NonExistentPath } = require("./controllers/error-handling-controllers.js");
 const { getUsers } = require('./controllers/users-controllers.js');
 const { getEndpoints } = require('./controllers/endpoints-controller.js');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
